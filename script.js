@@ -1,4 +1,5 @@
 const usernameInput = document.getElementById('usernameInput');
+const searchInput = document.getElementById('searchInput'); 
 const repositoriesContainer = document.getElementById('repositoriesContainer');
 const paginationContainer = document.getElementById('paginationContainer');
 const loader = document.getElementById('loader');
@@ -6,7 +7,8 @@ const loader = document.getElementById('loader');
 const itemsPerPageOptions = [10, 20, 50, 100];
 let currentPage = 1;
 let itemsPerPage = itemsPerPageOptions[0];
-let repositoriesData = []; 
+let repositoriesData = [];
+let userData = {};
 
 async function fetchGithubRepositories() {
     const username = usernameInput.value.trim();
@@ -15,17 +17,51 @@ async function fetchGithubRepositories() {
         try {
             showLoader();
 
-            const response = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`);
-            const repositories = await response.json();
+            const userResponse = await fetch(`https://api.github.com/users/${username}`);
+            userData = await userResponse.json();
 
-            repositoriesData = repositories; 
+            const repositoriesResponse = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`);
+            repositoriesData = await repositoriesResponse.json();
+
             hideLoader();
+
+            displayUserProfile();
             displayRepositories();
         } catch (error) {
-            console.error('Error fetching Github repositories:', error);
+            console.error('Error fetching Github data:', error);
             hideLoader();
         }
     }
+}
+
+function searchAndFetchRepositories() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const filteredRepositories = repositoriesData.filter(repo =>
+        repo.name.toLowerCase().includes(searchTerm) || (repo.description && repo.description.toLowerCase().includes(searchTerm))
+    );
+
+    repositoriesData = filteredRepositories;
+
+    displayRepositories();
+}
+function displayUserProfile() {
+    const userProfileContainer = document.getElementById('userProfileContainer');
+    userProfileContainer.innerHTML = `
+    <div class="row userinfo">
+    <div class="col-md-4 " >
+        <img src="${userData.avatar_url}" alt="Profile Picture" class="img-fluid rounded-circle profile">
+    </div>
+    <div class="col-md-8 user">
+        <h2>User Profile</h2>
+        <p><strong>Name:</strong> ${userData.name || 'N/A'}</p>
+        <p><strong>Username:</strong> ${userData.login}</p>
+        <p><strong>Followers:</strong> ${userData.followers}</p>
+        <p><strong>Following:</strong> ${userData.following}</p>
+        <p><strong>Public Repositories:</strong> ${userData.public_repos}</p>
+    </div>
+    <hr>
+</div>
+    `;
 }
 
 function displayRepositories() {
@@ -43,7 +79,7 @@ function displayRepositories() {
 
     currentRepositories.forEach(repo => {
         const repoCard = document.createElement('div');
-        repoCard.classList.add('col-md-6', 'mb-3'); 
+        repoCard.classList.add('col-md-6', 'mb-3', 'repository-card'); 
 
         const card = document.createElement('div');
         card.classList.add('card', 'border', 'border-dark');
@@ -76,7 +112,7 @@ function displayRepositories() {
 
     paginationContainer.innerHTML = '';
     const pagination = document.createElement('ul');
-    pagination.classList.add('pagination');
+    pagination.classList.add('pagination','justify-content-center');
 
     const previousButton = createPaginationButton('Previous', currentPage > 1 ? currentPage - 1 : 1);
     pagination.appendChild(previousButton);
