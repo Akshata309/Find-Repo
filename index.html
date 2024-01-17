@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
     <title>Github Repositories</title>
 </head>
 <body>
@@ -12,7 +14,12 @@
         <input type="text" id="usernameInput" placeholder="Enter username">
         <button onclick="fetchGithubRepositories()">Fetch Repositories</button>
 
-        <div id="repositoriesContainer"></div>
+        <div id="repositoriesContainer" class="mt-3">
+        </div>
+
+        <div id="paginationContainer" class="mt-3"></div>
+
+        <div id="loader"></div>
     </div>
 
     <script src="script.js"></script>
