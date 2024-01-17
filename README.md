@@ -39,10 +39,6 @@ A simple web application to fetch and display GitHub user profile and repositori
 
 - Bootstrap: [Link to Bootstrap](https://getbootstrap.com/)
 
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
 ## Links
 
 - [Live Demo](https://find-github-repo.vercel.app/) 
