@@ -4,7 +4,26 @@ body {
     background-color: #f8f9fa; 
     color: #000; 
 }
-
+/* .theme{
+    margin: 20px;
+} */
+.dark-mode-toggle {
+    display: flex;
+    justify-content: flex-end;
+    padding: 25px;
+}
+.intro-section {
+    display: flex;
+    justify-content :first baseline
+}
+.intro h1{
+    color:  #007bff;
+}
+/* .intro h1::before {
+    content: "\f09b"; 
+    font-family: "Font Awesome 5 Free";
+    margin-right: 10px;
+} */
 body.dark-mode {
     background-color: #333;
     color: #fff; 
@@ -121,7 +140,7 @@ label[for="usernameInput"] {
 }
 
 .userinfo {
-    margin: 15px;
+    margin: 30px 0px;
 }
 
 .card:hover {

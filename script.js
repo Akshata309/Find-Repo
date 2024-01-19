@@ -220,5 +220,4 @@ function showLoader() {
 function hideLoader() {
     loader.style.display = 'none';
 }
-
 usernameInput.addEventListener('change', fetchGithubRepositories);

@@ -10,13 +10,22 @@
     <title>Github Repositories</title>
 </head>
 <body class="light">
-    <div class="container">
+    <div class="dark-mode-toggle">
+        <button onclick="toggleDarkMode()"><i class="fas fa-moon"></i></button>
+    </div>
+        <div class="container">
+        <div class="intro-section">
+            <div class="intro">
+            <h1>Welcome to Find-Repo</h1>
+            <p>This is a GitHub Repositories Finder! <br>
+            Enter a GitHub username to discover their repositories. Click the "Fetch Repositories" button to get started.</p>
+            </div>
+        </div>
         <label for="usernameInput">Enter Github Username:</label><br>
         <div class="input-group">
             <input type="text" id="usernameInput" placeholder="Enter username" class="form-control">
             <div class="input-group-append">
                 <button onclick="fetchGithubRepositories()" class="btn btn-primary mr-4"><i class="fas fa-search"></i> Fetch Repositories</button>
-                <button onclick="toggleDarkMode()"><i class="fas fa-moon"></i></button> 
             </div>
         </div>
         <div id="userProfileContainer"></div>
