@@ -33,6 +33,47 @@ async function fetchGithubRepositories() {
         }
     }
 }
+function openRepoModal(repo) {
+    const repoModal = document.getElementById('repoModal');
+    const repoNameElement = document.getElementById('repoName');
+    const repoDescriptionElement = document.getElementById('repoDescription');
+    const repoTopicsElement = document.getElementById('repoTopics');
+    const modalOwner = document.getElementById('repoOwner');
+    const repoLinkElement = document.getElementById('repoLink');
+    const modalCreated = document.getElementById('repoCreated');
+    const modalUpdated = document.getElementById('repoUpdated');
+    const modalLanguage = document.getElementById('repoLanguage');
+    const modalLicense = document.getElementById('repoLicense');
+    const modalStars = document.getElementById('repoStars');
+    const modalForks = document.getElementById('repoForks');
+    const modalWatchers = document.getElementById('repoWatchers');
+    const modalOpenIssues = document.getElementById('repoOpenIssues');
+    const modalOpenPRs = document.getElementById('repoOpenPRs');
+    const modalSize = document.getElementById('repoSize');
+
+    repoNameElement.textContent = repo.name;
+    repoDescriptionElement.textContent = repo.description || 'No description available.';
+    repoTopicsElement.textContent = repo.topics.join(', ') || 'No topics available.';
+    modalOwner.textContent = repo.owner.login;
+    repoLinkElement.href = repo.html_url;
+    modalCreated.textContent = new Date(repo.created_at).toLocaleDateString();
+    modalUpdated.textContent = new Date(repo.updated_at).toLocaleDateString();
+    modalLanguage.textContent = repo.language || 'Not specified';
+    modalLicense.textContent = repo.license ? repo.license.name : 'Not specified';
+    modalStars.textContent = repo.stargazers_count;
+    modalForks.textContent = repo.forks_count;
+    modalWatchers.textContent = repo.watchers_count;
+    modalOpenIssues.textContent = repo.open_issues_count;
+    modalOpenPRs.textContent = repo.open_issues_count;
+    // modalSize.textContent = repo.size;
+
+    repoModal.style.display = 'block';
+}
+document.querySelectorAll('.close').forEach(closeButton => {
+    closeButton.addEventListener('click', () => {
+        document.getElementById('repoModal').style.display = 'none';
+    });
+});
 
 function searchAndFetchRepositories() {
     const searchTerm = searchInput.value.toLowerCase();
@@ -48,13 +89,14 @@ function displayUserProfile() {
     const userProfileContainer = document.getElementById('userProfileContainer');
     userProfileContainer.innerHTML = `
     <div class="row userinfo">
-    <div class="col-md-4 " >
+    <div class="col-md-6 " >
         <img src="${userData.avatar_url}" alt="Profile Picture" class="img-fluid rounded-circle profile">
     </div>
-    <div class="col-md-8 user">
+    <div class="col-md-6 user">
         <h2>User Profile</h2>
         <p><strong>Name:</strong> ${userData.name || 'N/A'}</p>
         <p><strong>Username:</strong> ${userData.login}</p>
+        <p><strong>Bio:</strong> ${userData.bio}</p>
         <p><strong>Followers:</strong> ${userData.followers}</p>
         <p><strong>Following:</strong> ${userData.following}</p>
         <p><strong>Public Repositories:</strong> ${userData.public_repos}</p>
@@ -80,9 +122,14 @@ function displayRepositories() {
     currentRepositories.forEach(repo => {
         const repoCard = document.createElement('div');
         repoCard.classList.add('col-md-6', 'mb-3', 'repository-card'); 
+        repoCard.addEventListener('click', () => openRepoModal(repo)); // Add this line
 
         const card = document.createElement('div');
         card.classList.add('card', 'border', 'border-dark');
+
+        //  card.addEventListener('click', () => {
+        //     window.open(repo.html_url, '_blank');
+        // });
 
         const cardBody = document.createElement('div');
         cardBody.classList.add('card-body');
