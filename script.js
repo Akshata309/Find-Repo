@@ -10,6 +10,25 @@ let itemsPerPage = itemsPerPageOptions[0];
 let repositoriesData = [];
 let userData = {};
 
+function toggleDarkMode() {
+    const body = document.body;
+
+    body.classList.toggle('dark-mode');
+
+    const isDarkMode = body.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', isDarkMode);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const body = document.body;
+    const storedDarkMode = localStorage.getItem('darkMode');
+
+    if (storedDarkMode) {
+        body.classList.toggle('dark-mode', storedDarkMode === 'true');
+    }
+});
+
+
 async function fetchGithubRepositories() {
     const username = usernameInput.value.trim();
 
@@ -121,8 +140,8 @@ function displayRepositories() {
 
     currentRepositories.forEach(repo => {
         const repoCard = document.createElement('div');
-        repoCard.classList.add('col-md-6', 'mb-3', 'repository-card'); 
-        repoCard.addEventListener('click', () => openRepoModal(repo)); // Add this line
+        repoCard.classList.add('col-md-6', 'mb-3',); 
+        repoCard.addEventListener('click', () => openRepoModal(repo)); 
 
         const card = document.createElement('div');
         card.classList.add('card', 'border', 'border-dark');

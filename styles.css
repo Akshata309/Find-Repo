@@ -1,18 +1,45 @@
 body {
     font-family: 'Arial', sans-serif;
     margin: 20px;
-    background-color: #f4f4f4; /* Adjusted background color */
+    background-color: #f8f9fa; 
+    color: #000; 
+}
+
+body.dark-mode {
+    background-color: #333;
+    color: #fff; 
 }
 
 .container {
     max-width: 800px; 
     margin: auto;
-    background-color: #fff; 
+    /* background-color: #fff; 
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
     padding: 20px;
     margin-top: 20px;
     margin-bottom: 20px; 
+}
+
+.repository-card {
+    background-color: #fff; 
+    color: #000; 
+}
+
+body.dark-mode .card{
+    background-color: #333;
+    color: #fff; 
+    border: 1px solid #fff !important; 
+}
+body.dark-mode .modal-content {
+    background-color: #333;
+    color: #fff; 
+    border: 1px solid #fff ; 
+}
+
+body.dark-mode .card:hover {
+    box-shadow: 0 8px 20px rgba(204, 202, 202, 0.4);
+    transition: box-shadow 0.3s ease;
 }
 
 #usernameInput {
@@ -23,11 +50,10 @@ body {
 
 label[for="usernameInput"] {
     font-weight: 600;
-    font-size: 18px;
+    font-size: 20px;
     margin-top: 15px;
 }
 
-/* Input and button styling */
 .input-group {
     margin-bottom: 15px;
 }
@@ -40,7 +66,7 @@ label[for="usernameInput"] {
 }
 
 .btn-primary:hover {
-    background-color: #0056b3; /* Darker color on hover */
+    background-color: #0056b3; 
 }
 
 .pagination {
@@ -101,19 +127,14 @@ label[for="usernameInput"] {
 .card:hover {
     background-color: #c3defb; 
     transition: background-color 0.3s ease; 
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
-
-/* Add styling to repository cards */
-.repository-card {
+.card {
     border-radius: 8px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.repository-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-/* Add a subtle transition effect to buttons */
 button {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -129,7 +150,6 @@ button:hover {
         max-width: 100%;
     }
 }
-/* Add modal styles */
 .modal {
     display: none;
     position: fixed;
@@ -147,7 +167,6 @@ button:hover {
     align-items: center;
     justify-content: center;
     min-height: 100%;
-
 }
 
 
@@ -197,7 +216,6 @@ button:hover {
     border-radius: 4px;
 } */
 
-/* Optional: Add a subtle animation */
 .modal-content {
     animation: fadeInUp 0.5s ease;
 }
