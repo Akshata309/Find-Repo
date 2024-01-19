@@ -28,6 +28,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+function fetchAndShowContainer() {
+    fetchGithubRepositories(); 
+
+    const container1 = document.querySelector('.container1');
+    container1.style.display = 'block';
+}
+function goBack() {
+    document.querySelector('.container1').style.display = 'none';
+}
 
 async function fetchGithubRepositories() {
     const username = usernameInput.value.trim();

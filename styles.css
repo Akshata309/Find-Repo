@@ -1,7 +1,7 @@
 body {
     font-family: 'Arial', sans-serif;
-    margin: 20px;
-    background-color: #f8f9fa; 
+    /* margin: 20px; */
+    /* background-color: #f8f9fa;  */
     color: #000; 
 }
 /* .theme{
@@ -16,30 +16,73 @@ body {
     display: flex;
     justify-content :first baseline
 }
-.intro h1{
-    color:  #007bff;
+.intro-section h1 {
+    color: #007bff;
+    text-shadow: 2px 3px 3px white;
+    margin-left: 20px;
+    font-family: 'Lemon', sans-serif;
+    overflow: hidden; 
 }
-/* .intro h1::before {
-    content: "\f09b"; 
-    font-family: "Font Awesome 5 Free";
-    margin-right: 10px;
-} */
-body.dark-mode {
+
+@keyframes revealLetters {
+    from {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.intro-section h1 {
+    color: #007bff;
+    text-shadow: 2px 3px 3px white ;
+    margin-left: 20px;
+    font-family: 'Lemon', sans-serif;
+    animation: slideInFromLeft 3s ease-out; 
+}
+
+@keyframes slideInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+body.dark-mode,
+.container1.dark-mode {
     background-color: #333;
     color: #fff; 
 }
 
 .container {
     max-width: 800px; 
+    margin: auto; 
+    padding: 20px;
+    margin-top: 0px;
+    margin-bottom: 20px; 
+    background-image: url('assests/img1.webp');
+    background-size: cover; 
+    background-position: center center;
+    background-repeat: no-repeat;
+    color: #fff;
+}
+
+.container1 {
+    width: 75%;
     margin: auto;
-    /* background-color: #fff; 
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin-top: 20px;
     margin-bottom: 20px; 
-}
-
+    border: 1px solid #fff 
+} 
 .repository-card {
     background-color: #fff; 
     color: #000; 
