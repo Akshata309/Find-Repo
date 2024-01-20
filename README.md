@@ -1,4 +1,4 @@
-A simple web application to fetch and display GitHub user profile and repositories.
+A simple web application (Find-Repo) to fetch and display GitHub user profile and repositories.
 
 ## Installation
 
@@ -22,13 +22,17 @@ A simple web application to fetch and display GitHub user profile and repositori
 ## Features
 
 - Fetch and display user profile information.
-- Fetch and display repositories with topics.
+- Fetch and display repositories with additional information and repository URL to navigate to actual repository.
 - Paginate through repositories.
+- Dark Mode: Toggle dark mode using the moon icon in the top right corner.
+- Bookmarks: Bookmark repositories and view them. Click on bookmarks to navigate to the actual GitHub repository.
+- Responsive Design: User-friendly experience on various devices.
 
-## Assumptions
+## Additional Features
 
 - The GitHub API is accessible.
 - Usernames are case-sensitive.
+- Custom alerts for user actions, such as bookmark addition or removal.
 
 ## Edge Cases Handling
 
@@ -41,5 +45,5 @@ A simple web application to fetch and display GitHub user profile and repositori
 
 ## Links
 
-- [Live Demo](https://find-github-repo.vercel.app/) 
+- [Live Demo](https://find-github-repo.vercel.app/)
 - [GitHub Repository](https://github.com/Akshata309/find-repo.git)

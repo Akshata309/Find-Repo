@@ -1,3 +1,4 @@
+
 const usernameInput = document.getElementById('usernameInput');
 const searchInput = document.getElementById('searchInput'); 
 const repositoriesContainer = document.getElementById('repositoriesContainer');
@@ -9,6 +10,37 @@ let currentPage = 1;
 let itemsPerPage = itemsPerPageOptions[0];
 let repositoriesData = [];
 let userData = {};
+
+const infoIcon = document.getElementById('info-icon');
+const infoModal = document.getElementById('infoModal');
+
+infoIcon.addEventListener('click', () => {
+    infoModal.style.display = 'block';
+});
+
+// Close the modal when clicking outside of it
+window.addEventListener('click', (event) => {
+    if (event.target === infoModal) {
+        infoModal.style.display = 'none';
+    }
+});
+window.addEventListener('click', (event) => {
+    if (event.target === repoModal) {
+        repoModal.style.display = 'none';
+    }
+});
+window.addEventListener('click', (event) => {
+    if (event.target === bookmarksModal) {
+        bookmarksModal.style.display = 'none';
+    }
+});
+
+// Close the modal when clicking the close button
+document.querySelectorAll('.close').forEach(closeButton => {
+    closeButton.addEventListener('click', () => {
+        infoModal.style.display = 'none';
+    });
+});
 
 function toggleDarkMode() {
     const body = document.body;
@@ -33,10 +65,126 @@ function fetchAndShowContainer() {
 
     const container1 = document.querySelector('.container1');
     container1.style.display = 'block';
+
+    // Hide the main container
+    const mainContainer = document.querySelector('.container');
+    mainContainer.style.display = 'none';
+
 }
 function goBack() {
     document.querySelector('.container1').style.display = 'none';
+    document.querySelector('.container').style.display = 'block';
+    usernameInput.value = ''; 
+
 }
+// Function to get bookmarked repositories from local storage
+function getBookmarkedRepositories() {
+    const bookmarks = localStorage.getItem('bookmarks');
+    return bookmarks ? JSON.parse(bookmarks) : [];
+}
+
+// Function to save bookmarked repositories to local storage
+function saveBookmarkedRepositories(bookmarks) {
+    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+}
+
+// Function to add or remove a repository from bookmarks
+function toggleBookmark(repo) {
+    const bookmarks = getBookmarkedRepositories();
+    const repoIndex = bookmarks.findIndex(bookmarkedRepo => bookmarkedRepo.id === repo.id);
+
+    if (repoIndex === -1) {
+        bookmarks.push(repo);
+        showCustomAlert('Bookmark added successfully!', 'success');
+    } 
+    saveBookmarkedRepositories(bookmarks);
+}
+function viewBookmarks() {
+    const bookmarks = getBookmarksFromLocalStorage();
+
+    if (bookmarks.length >= 0) {
+        displayBookmarksModal(bookmarks);
+    } 
+}
+
+function getBookmarksFromLocalStorage() {
+    const bookmarksString = localStorage.getItem('bookmarks');
+    return bookmarksString ? JSON.parse(bookmarksString) : [];
+}
+
+function displayBookmarksModal(bookmarks) {
+    const modal = document.getElementById('bookmarksModal');
+    const modalBody = document.getElementById('bookmarksModalBody');
+
+    modalBody.innerHTML = ''; // Clear previous content
+
+    if (bookmarks.length === 0) {
+        modalBody.innerHTML = '<p>No bookmarks found.</p>';
+        modal.style.display = 'block';
+        return;
+    }
+
+    const list = document.createElement('ul');
+    list.classList.add('bookmarked-repos-list');
+
+    bookmarks.forEach(bookmark => {
+        const listItem = document.createElement('li');
+        listItem.classList.add('bookmarked-repo-item');
+
+        const link = document.createElement('a');
+        link.href = bookmark.html_url;
+        link.target = '_blank';
+        link.textContent = bookmark.name; 
+        listItem.appendChild(link);
+
+        // Add a delete button for each bookmark
+        const deleteButton = document.createElement('button');
+        deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
+        deleteButton.classList.add('delete-button');
+        deleteButton.addEventListener('click', (event) => {
+            event.stopPropagation(); 
+            removeBookmark(bookmark);
+            displayBookmarksModal(getBookmarksFromLocalStorage());
+        });
+
+        listItem.appendChild(deleteButton);
+        list.appendChild(listItem);
+    });
+
+    modalBody.appendChild(list);
+    modal.style.display = 'block';
+}
+
+function removeBookmark(bookmark) {
+    const bookmarks = getBookmarksFromLocalStorage();
+    const updatedBookmarks = bookmarks.filter(b => b.id !== bookmark.id);
+    saveBookmarkedRepositories(updatedBookmarks);
+    showCustomAlert('Bookmark removed successfully!', 'warning');
+}
+
+function closeBookmarksModal() {
+    document.getElementById('bookmarksModal').style.display = 'none';
+}
+
+function showCustomAlert(message, type) {
+    const customAlert = document.getElementById('customAlert');
+    const alertMessage = document.getElementById('alertMessage');
+
+    alertMessage.textContent = message;
+    customAlert.style.backgroundColor = type === 'success' ? '#4CAF50' : '#FF5733';
+
+    customAlert.style.display = 'block';
+
+    setTimeout(() => {
+        closeCustomAlert();
+    }, 2000); // Auto-close after 3 seconds
+}
+
+function closeCustomAlert() {
+    const customAlert = document.getElementById('customAlert');
+    customAlert.style.display = 'none';
+}
+
 
 async function fetchGithubRepositories() {
     const username = usernameInput.value.trim();
@@ -95,6 +243,7 @@ function openRepoModal(repo) {
     modalOpenPRs.textContent = repo.open_issues_count;
     // modalSize.textContent = repo.size;
 
+    // displayBookmarkedRepositories();
     repoModal.style.display = 'block';
 }
 document.querySelectorAll('.close').forEach(closeButton => {
@@ -148,40 +297,53 @@ function displayRepositories() {
     row.classList.add('row');
 
     currentRepositories.forEach(repo => {
-        const repoCard = document.createElement('div');
-        repoCard.classList.add('col-md-6', 'mb-3',); 
-        repoCard.addEventListener('click', () => openRepoModal(repo)); 
+    const repoCard = document.createElement('div');
+    repoCard.classList.add('col-md-6', 'mb-3');
+    repoCard.addEventListener('click', () => openRepoModal(repo));
 
-        const card = document.createElement('div');
-        card.classList.add('card', 'border', 'border-dark');
+    const card = document.createElement('div');
+    card.classList.add('card', 'border', 'border-dark');
 
-        //  card.addEventListener('click', () => {
-        //     window.open(repo.html_url, '_blank');
-        // });
+    const cardBody = document.createElement('div');
+    cardBody.classList.add('card-body', 'd-flex', 'justify-content-between', 'align-items-center');
 
-        const cardBody = document.createElement('div');
-        cardBody.classList.add('card-body');
+    const repoInfo = document.createElement('div');
+    repoInfo.classList.add('d-flex', 'flex-column');
 
-        const repoName = document.createElement('h5');
-        repoName.classList.add('card-title', 'text-primary'); 
-        repoName.textContent = repo.name;
+    const repoName = document.createElement('h5');
+    repoName.classList.add('card-title', 'text-primary');
+    repoName.textContent = repo.name;
 
-        const repoDescription = document.createElement('p');
-        repoDescription.classList.add('card-text');
-        repoDescription.textContent = repo.description || 'No description available.';
+    const repoDescription = document.createElement('p');
+    repoDescription.classList.add('card-text');
+    repoDescription.textContent = repo.description || 'No description available.';
 
-        const repoTopics = document.createElement('p');
-        repoTopics.classList.add('card-text');
-        repoTopics.textContent = `Topics: ${repo.topics.join(', ') || 'No topics available.'}`;
+    const repoTopics = document.createElement('p');
+    repoTopics.classList.add('card-text');
+    repoTopics.textContent = `Topics: ${repo.topics.join(', ') || 'No topics available.'}`;
 
-        cardBody.appendChild(repoName);
-        cardBody.appendChild(repoDescription);
-        cardBody.appendChild(repoTopics);
+    repoInfo.appendChild(repoName);
+    repoInfo.appendChild(repoDescription);
+    repoInfo.appendChild(repoTopics);
 
-        card.appendChild(cardBody);
-        repoCard.appendChild(card);
-        row.appendChild(repoCard);
+    // Bookmark button
+    const bookmarkButton = document.createElement('button');
+    bookmarkButton.classList.add('btn', 'btn-bookmark');
+    bookmarkButton.innerHTML = '<i class="fas fa-bookmark book"></i>';
+    bookmarkButton.addEventListener('click', (event) => {
+        event.stopPropagation(); // Prevent the card click event from triggering
+        toggleBookmark(repo);
+        displayBookmarkedRepositories(); // Update displayed bookmarks
     });
+
+    cardBody.appendChild(repoInfo);
+    cardBody.appendChild(bookmarkButton);
+
+    card.appendChild(cardBody);
+    repoCard.appendChild(card);
+    row.appendChild(repoCard);
+});
+
 
     repositoriesContainer.appendChild(row);
 
@@ -230,3 +392,5 @@ function hideLoader() {
     loader.style.display = 'none';
 }
 usernameInput.addEventListener('change', fetchGithubRepositories);
+document.addEventListener('DOMContentLoaded', displayBookmarkedRepositories);
+

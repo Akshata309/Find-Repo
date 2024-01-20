@@ -6,31 +6,31 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Lemon&display=swap" rel="stylesheet">
-
-    <title>Github Repositories</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap" rel="stylesheet">
 </head>
 <body class="light">
     <div class="dark-mode-toggle">
-        <button onclick="toggleDarkMode()"><i class="fas fa-moon"></i></button>
+        <button onclick="viewBookmarks()" class="btn btn-primary mr-2"><i class="fas fa-bookmark"></i></button>
+        <button onclick="toggleDarkMode()" class="btn btn-primary"><i class="fas fa-moon "></i></button>
     </div>
         <div class="container">
         <div class="intro-section">
-            <img src="assests/giticon.png" alt="Icon" width="45" height="45"><h1><span>Welcome to Find-Repo</span></h1><br> 
+            <img src="assests/giticon.png" alt="Icon" width="45" height="45"><h1><span>Welcome to Find-Repo</span><span id="info-icon" class="fas fa-question-circle"></span>
+            </h1><br> 
         </div>
-        <p>This is a GitHub Repositories Finder! <br>
-            Enter a GitHub username to discover their repositories. Click the "Fetch Repositories" button to get started.</p>
+        <p>Discover, Bookmark, and Explore GitHub Repositories with Find-Repo: Your Gateway to Seamless Code Exploration!</p>
         <label for="usernameInput">Enter Github Username:</label><br>
         <div class="input-group">
             <input type="text" id="usernameInput" placeholder="Enter username" class="form-control">
             <div class="input-group-append">
                 <button onclick="fetchAndShowContainer()" class="btn btn-primary mr-4"><i class="fas fa-search"></i> Fetch Repositories</button>
-                <button onclick="goBack()" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Back</button>
             </div>
         </div>
     </div>
     <div class="container1"  style="display: none;">
+        <button onclick="goBack()" class="btn btn-primary back-button"><i class="fas fa-arrow-left"></i> Back</button>
         <div id="userProfileContainer"></div>
+        <hr>
         <div id="repositoriesContainer"></div>
         <div id="paginationContainer"></div>
         <div id="loader"></div>
@@ -70,6 +70,50 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="modal" id="bookmarksModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Bookmarked Repositories</h5>
+                    <button type="button" class="close" data-dismiss="modal" onclick="closeBookmarksModal()">&times;</button>
+                </div>
+                <div class="modal-body" id="bookmarksModalBody">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="infoModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><img src="assests/giticon.png" alt="Icon" width="35" height="35" style="margin-right: 10px;">
+                        About Find-Repo</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                <p>Welcome to Find-Repo, a GitHub Repositories Finder!</p>
+
+                <h6>How to Use:</h6>
+                <p>Enter a GitHub username in the input field to discover their repositories. Click the "Fetch Repositories" button to get started.</p>
+                <p>
+                    Clicking on a repository will show additional information such as:
+                    Description, Topics, Owner, Repository URL: Visit (Click to navigate to the actual GitHub repository), Created, Last Updated, Language, License, Stars, Forks, Watchers, Open Issues, Open PRs, Size.
+                </p>
+
+                <h6>Dark Mode:</h6>
+                <p>Toggle dark mode by clicking the moon icon in the top right corner.</p>
+
+                <h6>Bookmarks:</h6>
+                <p>Bookmark repositories by clicking the bookmark icon. View your bookmarks by clicking the "View Bookmarks" button.</p>
+                <p>To delete a bookmark, click the trash icon next to it in the "View Bookmarks" modal. You can also navigate to the GitHub repository by clicking its name.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="customAlert" class="custom-alert">
+        <span id="alertMessage" class="alert-message"></span>
+        <button onclick="closeCustomAlert()" class="close-button">&times;</button>
     </div>
     <script src="script.js"></script>
 </body>
