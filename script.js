@@ -1,4 +1,3 @@
-
 const usernameInput = document.getElementById('usernameInput');
 const searchInput = document.getElementById('searchInput'); 
 const repositoriesContainer = document.getElementById('repositoriesContainer');
@@ -44,7 +43,6 @@ document.querySelectorAll('.close').forEach(closeButton => {
 
 function toggleDarkMode() {
     const body = document.body;
-
     body.classList.toggle('dark-mode');
 
     const isDarkMode = body.classList.contains('dark-mode');
@@ -59,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.toggle('dark-mode', storedDarkMode === 'true');
     }
 });
+
 
 function fetchAndShowContainer() {
     fetchGithubRepositories(); 

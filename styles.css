@@ -2,7 +2,7 @@
 body {
     font-family: 'Arial', sans-serif;
     /* margin: 20px; */
-    /* background-color: #f8f9fa;  */
+    background-color: #f8f9fa; 
     color: #000; 
 }
 /* .theme{
@@ -426,6 +426,6 @@ body.dark-mode .book{
 #infoModal .modal-body h6 {
     text-decoration: underline;
 }
-#infoModal .modal-body  {
+#infoModal .modal-body h5 {
     text-decoration: underline;
 }
